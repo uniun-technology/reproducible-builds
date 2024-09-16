@@ -1,30 +1,27 @@
 ﻿# DotNet.ReproducibleBuilds
 
-This repo generates a package that enables reproducible builds in a single step, and documents MSBuild settings useful for enabling reproducibility through isolation.
+[![.NET Foundation](https://img.shields.io/badge/.NET%20Foundation-blueviolet.svg)](https://www.dotnetfoundation.org/)
+[![Build Status](https://dev.azure.com/dotnet/Projects/_apis/build/status%2FReproducibleBuilds%20-%20CI?branchName=main)](https://dev.azure.com/dotnet/Projects/_build/latest?definitionId=154&branchName=main)
 
-This repo documents various MSBuild settings for reproducibilty, and providing two nuget packages for enabling some of these setting.
+This repo is a collection of best practices for build reproducibility with MSBuild.
 
-The packages are:
-
-- DotNet.ReproducibleBuilds
-- DotNet.ReproducibleBuilds.Isolated
-
+It provides documentation and NuGet packages to simplify build configuration and isolate builds from developer or
+workstation-specific settings.
 
 ## DotNet.ReproducibleBuilds nuget package
+
+[![NuGet Version](https://img.shields.io/nuget/v/DotNet.ReproducibleBuilds?style=flat&label=DotNet.ReproducibleBuilds)](https://www.nuget.org/packages/DotNet.ReproducibleBuilds)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/DotNet.ReproducibleBuilds?style=flat)](https://www.nuget.org/packages/DotNet.ReproducibleBuilds)
 
 It's highly recommended that all projects enable these settings, either via
 adding this package or manually as described here: https://devblogs.microsoft.com/dotnet/producing-packages-with-source-link/
 
 This package sets the following properties:
 - `PublishRepositoryUrl` = `true`
-- `EmbedUntrackedSources` = `true`
 - `DebugType` = `embedded`. You can specify `portable` in your project if you prefer, but you'll need to upload that `.snupkg` file too.
-- `IncludePackageReferencesDuringMarkupCompilation` = `true` (enables a fix for WPF)
 - `ContinuousIntegrationBuild` = `true` on CI systems
 
-It also adds SourceLink dependencies for all repo types (the right one will be used automatically).
-
-For more information on debugging with Source Link is [here](https://devblogs.microsoft.com/dotnet/improving-debug-time-productivity-with-source-link/).
+More information on `PublishRepositoryUrl` and debugging with Source Link is [here](https://devblogs.microsoft.com/dotnet/improving-debug-time-productivity-with-source-link/).
 
 ### Usage
 
@@ -32,7 +29,7 @@ Add the following to your `Directory.Build.props` file so all projects in your s
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.1.1" PrivateAssets="All"/>
+  <PackageReference Include="DotNet.ReproducibleBuilds" Version="1.2.4" PrivateAssets="All"/>
 </ItemGroup>
 ```
 
@@ -43,6 +40,9 @@ Prerelease packages are available on the following [NuGet feed](https://dev.azur
 `https://pkgs.dev.azure.com/dotnet/Projects/_packaging/ReproducibleBuilds/nuget/v3/index.json`
 
 ## DotNet.ReproducibleBuilds.Isolated Documentation and nuget package
+
+[![NuGet Version](https://img.shields.io/nuget/v/DotNet.ReproducibleBuilds.Isolated?style=flat&label=DotNet.ReproducibleBuilds.Isolated)](https://www.nuget.org/packages/DotNet.ReproducibleBuilds.Isolated)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/DotNet.ReproducibleBuilds.Isolated?style=flat)](https://www.nuget.org/packages/DotNet.ReproducibleBuilds.Isolated)
 
 It's highly recommended that all projects enable these settings, either via 
 adding this package or manually, as described in [Documentation/Reproducible-MSBuild](Documentation/Reproducible-MSBuild/README.md).
@@ -58,10 +58,8 @@ If you check out the same commit with the same SDK version and same nuget feed, 
 Add the following to the top of your projects or to `Directory.Build.props`:
 
 ```xml
-<Sdk Name="DotNet.ReproducibleBuilds.Isolated" Version="{TBD}" />
+<Sdk Name="DotNet.ReproducibleBuilds.Isolated" Version="1.2.4" />
 ```
-
-Note: fill in the appropriate {TBD} version after the first release.
 
 Tested on MSBuild 16.7 (Latest LTS at time of writing).
 
